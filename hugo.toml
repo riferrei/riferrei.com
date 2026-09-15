@@ -1,0 +1,67 @@
+baseURL = "https://riferrei.com/"
+title = "Ricardo Ferreira"
+locale = "en-us"
+defaultContentLanguage = "en"
+
+# buildFuture is optional and only for previewing scheduled posts as if they
+# were already published. Production stays without it.
+# buildFuture = true
+
+[module]
+  [[module.imports]]
+    path = "github.com/dadoonet/hugo-theme-devrel"
+  # Reuse the last Pagefind index during `hugo server`
+  [[module.mounts]]
+    source = "content"
+    target = "content"
+  [[module.mounts]]
+    source = "static"
+    target = "static"
+  [[module.mounts]]
+    source = "data"
+    target = "data"
+  [[module.mounts]]
+    source = "public/pagefind"
+    target = "static/pagefind"
+    disableWatch = true
+
+[params]
+  author = "Ricardo Ferreira"
+  description = "Blog posts about software engineering, my work, and life"
+  avatar = "about/ricardo.png"
+  headerTitle = "Ricardo Ferreira"
+  motto = "Developer Advocate | Speaker | OSS Contributor"
+  email = "riferrei@riferrei.com"
+  siteStartYear = 2018
+  favicon = "favicon.ico"
+  rss = true
+  lightTheme = "emerald"
+  darkTheme = "forest"
+  stickyNav = true
+  noDefaultSummaryCover = true
+  showTableOfContents = true
+  showSummaryCoverInPost = true
+  reorderNavItems = ["search", "posts", "talks", "calendar", "about_me"]
+  collapseNavItems = ["categories", "tags", "series", "rss"]
+
+  [params.navItems]
+    [params.navItems.calendar]
+      href = "https://calendar.riferrei.com/"
+      title = "Speaking Calendar"
+      icon = "calendar"
+      target = "_blank"
+
+  [params.talks]
+    pdf_base_url = ""
+
+  [params.search]
+    enabled = true
+
+# Hugo's defaults are only tags and categories; the extra taxonomies from the
+# theme module are not applied unless the site declares them here.
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  series = "series"
+  city = "cities"
+  language = "languages"
