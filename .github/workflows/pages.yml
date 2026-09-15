@@ -59,7 +59,7 @@ jobs:
           hugo \
             --gc \
             --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+            --baseURL "https://riferrei.com/"
 
       - name: Build Pagefind search index
         run: npx --yes pagefind@^1 --site public
