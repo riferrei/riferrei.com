@@ -27,13 +27,13 @@ defaultContentLanguage = "en"
 
 [params]
   author = "Ricardo Ferreira"
-  description = "Blog posts about software engineering, my work, and life"
+  description = "Ricardo Ferreira: Helping developers build with distributed systems, AI, and data infrastructure."
   avatar = "about/ricardo.png"
   headerTitle = "Ricardo Ferreira"
-  motto = "Developer Advocate | Speaker | OSS Contributor"
+  motto = "Helping developers build with distributed systems, AI, and data infrastructure"
   email = "riferrei@riferrei.com"
   siteStartYear = 2018
-  favicon = "favicon.ico"
+  favicon = """<link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="apple-touch-icon" href="/apple-touch-icon.png" />"""
   rss = true
   lightTheme = "emerald"
   darkTheme = "forest"
@@ -41,7 +41,7 @@ defaultContentLanguage = "en"
   noDefaultSummaryCover = true
   showTableOfContents = true
   showSummaryCoverInPost = true
-  reorderNavItems = ["search", "posts", "talks", "calendar", "about_me"]
+  reorderNavItems = ["search", "posts", "talks", "calendar", "linkedin", "about_me"]
   collapseNavItems = ["categories", "tags", "series", "rss"]
 
   [params.navItems]
@@ -49,6 +49,11 @@ defaultContentLanguage = "en"
       href = "https://calendar.riferrei.com/"
       title = "Speaking Calendar"
       icon = "calendar"
+      target = "_blank"
+    [params.navItems.linkedin]
+      href = "https://www.linkedin.com/in/riferrei"
+      title = "LinkedIn"
+      icon = "logo-linkedin"
       target = "_blank"
 
   [params.talks]
