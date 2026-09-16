@@ -2,7 +2,7 @@
 socials = [
   { href = "https://github.com/riferrei", target = "_blank", icon = "logo-github", title = "GitHub" },
   { href = "https://www.linkedin.com/in/riferrei/", target = "_blank", icon = "logo-linkedin", title = "LinkedIn" },
-  { href = "https://x.com/riferrei", target = "_blank", icon = "logo-twitter", title = "X" },
+  { href = "https://x.com/riferrei", target = "_blank", icon = "logo-x", title = "X" },
   { href = "https://www.youtube.com/@riferrei", target = "_blank", icon = "logo-youtube", title = "YouTube" },
-  { href = "mailto:riferrei@riferrei.com", target = "_blank", icon = "mail", title = "Email" },
+  { href = "https://www.reddit.com/user/cap_theorem_enjoyer/", target = "_blank", icon = "logo-reddit", title = "Reddit" },
 ]

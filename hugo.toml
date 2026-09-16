@@ -41,6 +41,8 @@ defaultContentLanguage = "en"
   noDefaultSummaryCover = true
   showTableOfContents = true
   showSummaryCoverInPost = true
+  imageZoomableInPost = true
+  showPrevNextPost = true
   reorderNavItems = ["search", "posts", "talks", "calendar", "linkedin", "about_me"]
   collapseNavItems = ["categories", "tags", "series", "rss"]
 
