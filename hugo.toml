@@ -43,7 +43,7 @@ defaultContentLanguage = "en"
   showSummaryCoverInPost = true
   imageZoomableInPost = true
   showPrevNextPost = true
-  reorderNavItems = ["search", "posts", "talks", "calendar", "linkedin", "about_me"]
+  reorderNavItems = ["search", "posts", "talks", "calendar", "about_me"]
   collapseNavItems = ["categories", "tags", "series", "rss"]
 
   [params.navItems]
@@ -51,11 +51,6 @@ defaultContentLanguage = "en"
       href = "https://calendar.riferrei.com/"
       title = "Speaking Calendar"
       icon = "calendar"
-      target = "_blank"
-    [params.navItems.linkedin]
-      href = "https://www.linkedin.com/in/riferrei"
-      title = "LinkedIn"
-      icon = "logo-linkedin"
       target = "_blank"
 
   [params.talks]
