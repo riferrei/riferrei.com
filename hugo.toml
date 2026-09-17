@@ -48,10 +48,9 @@ defaultContentLanguage = "en"
 
   [params.navItems]
     [params.navItems.calendar]
-      href = "https://calendar.riferrei.com/"
+      href = "/calendar/"
       title = "Speaking Calendar"
       icon = "calendar"
-      target = "_blank"
 
   [params.talks]
     pdf_base_url = ""

@@ -1,0 +1,661 @@
+{{ define "title" }}{{ .Title }}{{ end }}
+
+{{ define "css" }}
+<link title="timeline-styles" rel="stylesheet" href="{{ "vendor/timelinejs/css/timeline.css" | relURL }}">
+<style>
+  .calendar-wrap {
+    max-width: 1400px;
+    margin: 1.5rem auto 3rem;
+    padding: 0 1rem;
+  }
+  /* The timeline and its navigation arrows share one stage; the arrows are
+     overlaid on the timeline's left/right edges so they steer the timeline
+     itself, not the detail modal. */
+  .cal-stage {
+    position: relative;
+    width: 100%;
+  }
+  #timeline {
+    width: 100%;
+    /* Tall enough that the deepest marker stack in a dense period (e.g. 2021,
+       ~5-6 rows at the wider row spacing) fits without clipping the bottom. */
+    height: clamp(520px, 66vh, 700px);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Give the whole canvas to the navigation: hide TimelineJS's built-in
+     docked slide pane; event details are shown in our own modal on click. */
+  #timeline .tl-storyslider { display: none !important; }
+  #timeline .tl-timenav {
+    top: 0 !important;
+    height: 100% !important;
+  }
+
+  /* TimelineJS paints its canvas, axis and guide lines with hardcoded light
+     colours (white / #f2f2f2 / #d9d9d9), so in dark mode the widget is a bright
+     rectangle floating in a dark page. Re-skin every one of those surfaces with
+     the theme's --color-base-* tokens, which already flip between the light
+     (emerald) and dark (forest) themes, so the timeline follows the site theme. */
+  /* Only re-skin the flat surface fills. Do NOT touch .tl-timeaxis-major: it
+     uses a background-image to draw the axis rule + tick marks, so overriding
+     its background breaks the axis (stacks/smears the tick labels). */
+  #timeline,
+  #timeline .tl-timenav,
+  #timeline .tl-slider-background,
+  #timeline .tl-timeaxis-background {
+    background-color: var(--color-base-200) !important;
+  }
+  /* The thin vertical guide line dropped from each marker to the axis. */
+  #timeline .tl-timenav-line {
+    background: color-mix(in oklab, var(--color-base-content) 22%, transparent) !important;
+  }
+  /* Zoom / return menu buttons and the TimelineJS attribution chip. */
+  #timeline .tl-menubar-button {
+    background: color-mix(in oklab, var(--color-base-content) 8%, var(--color-base-100)) !important;
+    color: var(--color-base-content) !important;
+    box-shadow: none !important;
+  }
+  #timeline .tl-attribution,
+  #timeline .tl-attribution a {
+    background: transparent !important;
+    color: color-mix(in oklab, var(--color-base-content) 55%, transparent) !important;
+  }
+  /* The marker's outer container carries a light (#e5e5e5) box that reads as a
+     halo/shadow behind each balloon in dark mode. Make it transparent; the
+     inner .tl-timemarker-content already provides the themed balloon surface. */
+  #timeline .tl-timemarker .tl-timemarker-content-container {
+    background: transparent !important;
+  }
+
+  /* TimelineJS de-emphasises every non-active marker to near-invisible grey
+     (bg #e5e5e5, text #bfbfbf). With 100+ markers that reads as a broken,
+     washed-out timeline. Make every marker legible; keep the active one
+     highlighted with the theme's primary colour. The theme (DaisyUI) exposes
+     full colour values as --color-* tokens, so use them directly. TimelineJS's
+     own selectors are deep, so these overrides need high specificity + !important. */
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content {
+    background: var(--color-base-100) !important;
+    border: 1px solid color-mix(in oklab, var(--color-base-content) 18%, transparent) !important;
+    border-radius: 4px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14) !important;
+  }
+  /* TimelineJS caps every balloon at ~100px wide with a hard line-clamp, so
+     titles truncate to uselessness. Widen the balloon, bump the font, and
+     allow 3 readable lines so the full title fits. These target the regular
+     content container (markers stay in normal, not "small", mode here) as
+     well as the small variant, so the sizing applies at every zoom level. */
+  #timeline .tl-timemarker .tl-timemarker-content-container,
+  #timeline .tl-timemarker .tl-timemarker-content-container.tl-timemarker-content-container-small {
+    width: 220px !important;
+    max-width: 220px !important;
+    /* TimelineJS sets this container to a fixed inline height (~99.5px) with
+       overflow:hidden, computed for a shorter balloon — so our taller conf +
+       3-line content overflowed and the last line ("Grade AI") was clipped,
+       and the visible part shifted up leaving a gap on top. Let the container
+       grow to its content and never clip, so the inner flex box can truly
+       centre the text. */
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content,
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content-small {
+    width: 220px !important;
+    max-width: 220px !important;
+    /* Equal padding on all four sides so the space above/below the text
+       matches the space left/right. */
+    padding: 12px !important;
+    box-sizing: border-box !important;
+    /* Hug the content: no min-height floor, so the balloon is only as tall as
+       the conference label + title need. Vertical breathing room comes purely
+       from the equal 12px padding. */
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-text h2.tl-headline {
+    /* No line-clamp: clamping forces display:-webkit-box + overflow:hidden,
+       which clips the last line and breaks vertical centring. Let the full
+       title show and the flex column centre it. */
+    -webkit-line-clamp: none !important;
+    display: block !important;
+    overflow: visible !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    font-weight: 400 !important;
+    white-space: normal !important;
+  }
+  /* The marker thumbnails are too tiny to read, so drop them entirely and let
+     the title use the full balloon width. */
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-media-container,
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-media,
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content img {
+    display: none !important;
+  }
+  /* With the thumbnail gone, centre the title VERTICALLY in the balloon while
+     keeping the text itself LEFT-aligned: the content box is a flex column that
+     centres its single child (justify-content) but stretches it full width
+     (align-items: stretch), so the text block fills the width and its lines
+     stay left-aligned. */
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content,
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content-small {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+  }
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-text {
+    width: 100% !important;
+    margin: 0 !important;
+    /* TimelineJS clips this wrapper; let the full title show. */
+    overflow: visible !important;
+    height: auto !important;
+  }
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-text h2.tl-headline {
+    text-align: left !important;
+  }
+  /* Two-part balloon label: conference name (small, muted, its own line) above
+     the talk title (the regular headline). Both spans are block so they stack. */
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-text h2.tl-headline .cal-conf {
+    display: block !important;
+    /* Same size as the title (13px); distinguished by weight, uppercase and a
+       muted colour rather than by being smaller. */
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    letter-spacing: 0.02em !important;
+    text-transform: uppercase !important;
+    color: color-mix(in oklab, var(--color-base-content) 55%, transparent) !important;
+    margin-bottom: 3px !important;
+  }
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-text h2.tl-headline .cal-title {
+    display: block !important;
+  }
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline,
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline p,
+  #timeline .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline a {
+    color: var(--color-base-content) !important;
+    opacity: 1 !important;
+  }
+  #timeline .tl-timemarker .tl-timemarker-timespan-content {
+    background: color-mix(in oklab, var(--color-base-content) 20%, transparent) !important;
+  }
+  #timeline .tl-timemarker .tl-timemarker-line-left,
+  #timeline .tl-timemarker .tl-timemarker-line-right {
+    border-color: color-mix(in oklab, var(--color-base-content) 30%, transparent) !important;
+    background: color-mix(in oklab, var(--color-base-content) 30%, transparent) !important;
+  }
+  /* Active marker: instead of a loud solid-primary fill, mark the current
+     selection the way the rest of the site marks accents — a primary-coloured
+     border and heading with just a soft primary wash over the base surface. */
+  #timeline .tl-timemarker.tl-timemarker-active .tl-timemarker-content-container .tl-timemarker-content {
+    background: color-mix(in oklab, var(--color-primary) 12%, var(--color-base-100)) !important;
+    border: 1px solid var(--color-primary) !important;
+    box-shadow: 0 0 0 1px var(--color-primary) !important;
+  }
+  #timeline .tl-timemarker.tl-timemarker-active .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline,
+  #timeline .tl-timemarker.tl-timemarker-active .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline p,
+  #timeline .tl-timemarker.tl-timemarker-active .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline a {
+    color: var(--color-primary) !important;
+  }
+  #timeline .tl-timemarker.tl-timemarker-active .tl-timemarker-line-left,
+  #timeline .tl-timemarker.tl-timemarker-active .tl-timemarker-line-right {
+    border-color: var(--color-primary) !important;
+    background: var(--color-primary) !important;
+  }
+  /* Hovered marker for affordance. */
+  #timeline .tl-timemarker:hover .tl-timemarker-content-container .tl-timemarker-content {
+    background: color-mix(in oklab, var(--color-primary) 18%, var(--color-base-100)) !important;
+  }
+  /* Axis tick labels (years/months) were also washed out. Only re-colour the
+     ticks TimelineJS actually shows; do NOT touch .tl-timeaxis-tick-hidden. */
+  #timeline .tl-timeaxis .tl-timeaxis-tick:not(.tl-timeaxis-tick-hidden) .tl-timeaxis-tick-text {
+    color: color-mix(in oklab, var(--color-base-content) 70%, transparent) !important;
+    opacity: 1 !important;
+  }
+  /* TimelineJS keeps the full day-resolution axis (~3000 ticks) in the DOM;
+     each paints a "|" mark via ::before, so thousands stacked ~2px apart form
+     one solid dark band across the axis. The pruneAxisTicks() JS below hides
+     every day-level tick (keeping one clean label per month), which removes the
+     band at its source. This rule is a belt-and-braces guard for the frame
+     before that JS first runs: kill the ::before mark on the ticks TimelineJS
+     itself flags hidden, so no band flashes on initial paint. */
+  #timeline .tl-timeaxis .tl-timeaxis-tick.tl-timeaxis-tick-hidden::before {
+    display: none !important;
+  }
+
+  /* --- Event detail modal --- */
+  .cal-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .cal-modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .cal-modal {
+    background: var(--color-base-100);
+    color: var(--color-base-content);
+    border-radius: 1rem;
+    width: 100%;
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    transform: translateY(12px) scale(0.98);
+    transition: transform 0.2s ease;
+  }
+  .cal-modal-overlay.open .cal-modal { transform: none; }
+  .cal-modal-body {
+    padding: 1.75rem 2rem 2rem;
+    overflow: auto;
+    flex: 1 1 auto;
+  }
+
+  /* Prev / next arrows that steer the timeline itself: they sit over the
+     timeline's left and right edges and step through talks in place. */
+  .cal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    width: 3rem;
+    height: 3rem;
+    border: none;
+    border-radius: 50%;
+    background: var(--color-base-100);
+    color: var(--color-base-content);
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .cal-nav-prev { left: 0.75rem; }
+  .cal-nav-next { right: 0.75rem; }
+  .cal-nav:hover { background: var(--color-primary); color: var(--color-primary-content); transform: translateY(-50%) scale(1.08); }
+  .cal-nav:disabled { opacity: 0.35; cursor: default; transform: translateY(-50%); background: var(--color-base-100); color: var(--color-base-content); }
+  .cal-modal-date {
+    color: color-mix(in oklab, var(--color-base-content) 55%, transparent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.4rem;
+  }
+  .cal-modal-headline {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin: 0 0 0.75rem;
+  }
+  .cal-modal-headline a { color: var(--color-primary); text-decoration: none; }
+  .cal-modal-headline a:hover { text-decoration: underline; }
+  /* The shared headline HTML carries a conference label (.cal-conf) that the
+     timeline balloon shows above the title. In the modal the conference is
+     already listed in the detail text (🎙 line) below, so hide the duplicate
+     label here and let the modal headline be just the title. */
+  .cal-modal-headline .cal-conf { display: none; }
+  .cal-modal-headline .cal-title { display: block; }
+  .cal-modal-text { font-size: 1rem; line-height: 1.6; }
+  .cal-modal-text a { color: var(--color-primary); }
+  .cal-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+  }
+  .cal-modal-close:hover { background: rgba(0, 0, 0, 0.75); }
+  .cal-modal-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    max-height: 85vh;
+    display: flex;
+  }
+</style>
+{{ end }}
+
+{{ define "main" }}
+<div class="calendar-wrap">
+  <div class="cal-stage">
+    <button class="cal-nav cal-nav-prev" id="cal-nav-prev" aria-label="Previous talk">&#8249;</button>
+    <div id="timeline"></div>
+    <button class="cal-nav cal-nav-next" id="cal-nav-next" aria-label="Next talk">&#8250;</button>
+  </div>
+</div>
+
+<div class="cal-modal-overlay" id="cal-modal-overlay" aria-hidden="true">
+  <div class="cal-modal-wrap" role="dialog" aria-modal="true" aria-labelledby="cal-modal-headline">
+    <button class="cal-modal-close" id="cal-modal-close" aria-label="Close">&times;</button>
+    <div class="cal-modal">
+      <div class="cal-modal-body">
+        <div class="cal-modal-date" id="cal-modal-date"></div>
+        <h2 class="cal-modal-headline" id="cal-modal-headline"></h2>
+        <div class="cal-modal-text" id="cal-modal-text"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{/* Build the TimelineJS data at build time from every talk page.
+     One source of truth: content/talks/. No hand-maintained JSON. */}}
+{{ $talks := where site.RegularPages "Section" "talks" }}
+
+{{/* Sort ascending by event date so the timeline reads oldest -> newest,
+     matching the original calendar. Skip the theme's special pages
+     (templates/all/map/videos) and any page without a real conference. */}}
+{{ $withDates := slice }}
+{{ range $talks }}
+  {{ $dir := .File.Dir }}
+  {{ if not (or (in $dir "templates/") (in $dir "all/") (in $dir "map/") (in $dir "videos/")) }}
+    {{ if .Params.conference }}
+      {{ $withDates = $withDates | append (dict "page" . "date" (partial "talk-date.html" .)) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ $sorted := sort $withDates "date" "asc" }}
+
+{{ $events := slice }}
+{{ range $sorted }}
+  {{ $t := .page }}
+  {{ $d := .date }}
+  {{ $conf := $t.Params.conference }}
+
+  {{/* headline: conference name on top, then the talk title (linked to the
+      local talk page). Two spans so the balloon CSS can style the conference
+      as a small label above the title. */}}
+  {{ $headline := printf "<span class='cal-conf'>%s</span><a class='cal-title' href='%s'>%s</a>" $conf.name $t.RelPermalink $t.Title }}
+
+  {{/* location line with optional Google Maps link (matches old ✈️ style) */}}
+  {{ $locName := "" }}
+  {{ with $conf.city }}{{ $locName = . }}{{ end }}
+  {{ with $conf.country }}{{ if and . (ne . "") }}{{ $locName = printf "%s, %s" $locName . }}{{ end }}{{ end }}
+  {{ $confLine := $conf.name }}
+  {{ with $conf.url }}{{ $confLine = printf "<a href='%s' target='_blank' rel='noopener'>%s</a>" . $conf.name }}{{ end }}
+  {{ $text := printf "🎙 %s" $confLine }}
+  {{ if and $locName (ne $locName "") }}
+    {{ if and $conf.latitude $conf.longitude }}
+      {{ $text = printf "%s<br>✈️ <a href='https://www.google.com/maps?q=%s,%s' target='_blank' rel='noopener'>%s</a>" $text $conf.latitude $conf.longitude $locName }}
+    {{ else }}
+      {{ $text = printf "%s<br>✈️ %s" $text $locName }}
+    {{ end }}
+  {{ end }}
+
+  {{/* media: talk cover image if present */}}
+  {{ $mediaUrl := "" }}
+  {{ $cover := partial "cover-resource.html" $t }}
+  {{ with $cover }}{{ $mediaUrl = .Permalink }}{{ end }}
+
+  {{/* No "group": grouping renders one stacked lane per distinct value
+      (a row per year), wasting most of the canvas. A single lane lets the
+      markers use the full height. */}}
+  {{ $event := dict
+      "start_date" (dict "year" $d.Year "month" (int $d.Month) "day" $d.Day)
+      "text" (dict "headline" $headline "text" $text)
+  }}
+  {{ if $mediaUrl }}
+    {{ $event = merge $event (dict "media" (dict "url" $mediaUrl "thumbnail" $mediaUrl)) }}
+  {{ end }}
+  {{ $events = $events | append $event }}
+{{ end }}
+
+{{/* Title slide, ported from the old welcome.json */}}
+{{ $titleSlide := dict
+    "media" (dict
+      "url" (printf "%s" ("images/calendar/riferrei-closeup.png" | absURL))
+      "credit" "<a href='https://riferrei.com'>Ricardo Ferreira</a>")
+    "text" (dict
+      "headline" "Ricardo's Calendar"
+      "text" "<br><p>👋 Hi there. Welcome to my calendar. Here you will find all the details of my upcoming talks and the ones that I have already delivered in conferences and meetups.</p>")
+}}
+
+{{ $timelineData := dict "title" $titleSlide "events" $events }}
+
+<script>
+  window.__timelineData = {{ $timelineData | jsonify | safeJS }};
+</script>
+{{ end }}
+
+{{ define "js" }}
+<script src="{{ "vendor/timelinejs/js/timeline.js" | relURL }}"></script>
+<script>
+  (function () {
+    var data = window.__timelineData;
+    // Auto-select the next upcoming event (first event dated in the future),
+    // else land on the last one — same behaviour as the original calendar.
+    var now = new Date();
+    now.setDate(now.getDate() - 1);
+    var selected = data.events.length; // default: last slide (+ title => length)
+    for (var i = 0; i < data.events.length; i++) {
+      var e = data.events[i].start_date;
+      var d = new Date(e.year, e.month - 1, e.day);
+      if (d.getTime() > now.getTime()) { selected = i + 1; break; }
+    }
+    var timeline = new TL.Timeline("timeline", data, {
+      // Generous vertical gap between stacked marker rows so dense periods
+      // (e.g. 2021) read as cleanly separated rows instead of a crowded wall.
+      marker_padding: 18,
+      // Taller minimum marker height so the conference label + a full 3-line
+      // title (the default length) is never clipped, and stacked balloons in
+      // dense periods still get breathing room between rows.
+      marker_height_min: 108,
+      timenav_height_percentage: 100,
+      start_at_slide: selected,
+      // With 100+ densely-clustered events, a low zoom crams every marker into
+      // a narrow band and they overlap. Keep the zoom band tight so the user
+      // can't zoom all the way out (everything crammed) nor so far in that the
+      // axis fills with day ticks. Start mid-band, centred on current events.
+      zoom_sequence: [4, 5, 6, 7, 8, 9, 10],
+      initial_zoom: 3,
+      font: "ubuntu"
+    });
+
+    // TimelineJS measures the container on init, before the CSS-driven
+    // (clamp/vh) height settles, so it can lay out for the wrong height.
+    // Force a re-measure once things have painted.
+    var relayout = function () {
+      if (timeline && timeline.updateDisplay) { timeline.updateDisplay(); }
+      else { window.dispatchEvent(new Event("resize")); }
+    };
+    window.addEventListener("load", function () { setTimeout(relayout, 50); });
+    requestAnimationFrame(function () { requestAnimationFrame(relayout); });
+
+    // TimelineJS pads the axis to a huge range (~1996–2047 for these talks) and
+    // then, at the resulting zoom, its "best fit" tick algorithm falls back to
+    // day-level ticks ("Oct. 14", "Oct. 31"...). Because the DOM keeps EVERY
+    // day tick (~3000 of them), the axis reads as a dense, smeared band of
+    // near-random dates instead of clean months. CSS can hide the ones
+    // TimelineJS itself marks hidden, but the ones it *shows* are still days.
+    // So collapse the minor axis to one tick per month: keep only ticks whose
+    // label has no day number (pure "March", "Oct.") — the clean month/year
+    // labels — and hide every day-level tick. Re-run on every axis rebuild
+    // (zoom / pan / resize) via a MutationObserver so it always stays clean.
+    var pruneAxisTicks = function () {
+      var ticks = document.querySelectorAll(
+        "#timeline .tl-timeaxis-minor .tl-timeaxis-tick");
+      for (var i = 0; i < ticks.length; i++) {
+        var span = ticks[i].querySelector(".tl-timeaxis-tick-text");
+        var label = span ? span.textContent.trim() : "";
+        // A month/year label has no digit ("March", "Sept."); a day-level
+        // label always contains a day number ("March 13"). Hide the latter.
+        if (/\d/.test(label)) {
+          ticks[i].style.display = "none";
+        } else {
+          ticks[i].style.display = "";
+        }
+      }
+    };
+    var axisEl = document.querySelector("#timeline .tl-timeaxis");
+    if (axisEl) {
+      var scheduled = false;
+      var obs = new MutationObserver(function () {
+        // Coalesce the burst of mutations TimelineJS makes per rebuild into a
+        // single prune on the next frame (and guard against our own writes
+        // re-triggering the observer by only reacting to added/removed ticks).
+        if (scheduled) { return; }
+        scheduled = true;
+        requestAnimationFrame(function () {
+          scheduled = false;
+          pruneAxisTicks();
+        });
+      });
+      obs.observe(axisEl, { childList: true, subtree: true });
+    }
+    setTimeout(pruneAxisTicks, 60);
+    requestAnimationFrame(function () { requestAnimationFrame(pruneAxisTicks); });
+
+    // --- Event detail modal ---------------------------------------------
+    var overlay = document.getElementById("cal-modal-overlay");
+    var elDate = document.getElementById("cal-modal-date");
+    var elHeadline = document.getElementById("cal-modal-headline");
+    var elText = document.getElementById("cal-modal-text");
+    var btnPrev = document.getElementById("cal-nav-prev");
+    var btnNext = document.getElementById("cal-nav-next");
+
+    var MONTHS = ["January","February","March","April","May","June","July",
+      "August","September","October","November","December"];
+
+    // Chronological list of event ids, so the arrows can step through talks
+    // without the user having to click each balloon. Built from the rendered
+    // markers (see buildEventIds below) so the ids match exactly what the
+    // marker click handler passes to getDataById().
+    var eventIds = [];
+    var curIndex = -1;
+    function buildEventIds() {
+      var markers = Array.prototype.slice.call(
+        document.querySelectorAll("#timeline .tl-timenav .tl-timemarker"));
+      // Order markers chronologically by their horizontal position.
+      markers.sort(function (a, b) {
+        return (parseFloat(a.style.left) || 0) - (parseFloat(b.style.left) || 0);
+      });
+      eventIds = markers.map(function (m) { return m.id.replace(/-marker$/, ""); });
+    }
+
+    function modalIsOpen() { return overlay.classList.contains("open"); }
+
+    // Step the TIMELINE to talk i: highlight + scroll to that marker in place.
+    // The arrows belong to the timeline, so this does NOT open the modal. If
+    // the modal happens to be open already, its contents are refreshed too.
+    function selectByIndex(i) {
+      if (i < 0 || i >= eventIds.length) { return; }
+      curIndex = i;
+      var unique_id = eventIds[i];
+      var slide = timeline.getDataById(unique_id);
+      if (!slide || !slide.start_date) { return; }
+      btnPrev.disabled = (i <= 0);
+      btnNext.disabled = (i >= eventIds.length - 1);
+      // Move the timeline to this talk (scroll + highlight). goToId can
+      // recreate marker nodes, so re-bind afterwards.
+      try {
+        if (timeline.goToId) {
+          timeline.goToId(unique_id);
+          setTimeout(bindMarkers, 60);
+        }
+      } catch (err) {}
+      if (modalIsOpen()) { fillModal(slide); }
+    }
+
+    function fillModal(slide) {
+      // After processing, start_date is a TLDate whose fields live under .data
+      var sd = slide.start_date.data || slide.start_date;
+      elDate.textContent = (sd.month ? MONTHS[sd.month - 1] + " " : "") +
+        (sd.day ? sd.day + ", " : "") + sd.year;
+      elHeadline.innerHTML = (slide.text && slide.text.headline) || "";
+      elText.innerHTML = (slide.text && slide.text.text) || "";
+    }
+
+    // Clicking a balloon selects it on the timeline AND opens the detail modal.
+    function openModalByIndex(i) {
+      if (i < 0 || i >= eventIds.length) { return; }
+      var slide = timeline.getDataById(eventIds[i]);
+      if (!slide || !slide.start_date) { return; }
+      overlay.classList.add("open");
+      overlay.setAttribute("aria-hidden", "false");
+      fillModal(slide);
+      selectByIndex(i);
+    }
+    function openModal(unique_id) {
+      var i = eventIds.indexOf(unique_id);
+      if (i === -1) { return; } // title slide or unknown -> ignore
+      openModalByIndex(i);
+    }
+    function closeModal() {
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden", "true");
+    }
+
+    // TimelineJS's own change/markerclick events are unreliable here because
+    // we hide the storyslider, so bind our own click handler to each marker.
+    // The marker DOM id is TimelineJS's slugified unique_id + "-marker"; strip
+    // the suffix to recover the id that getDataById() expects.
+    function bindMarkers() {
+      var markers = document.querySelectorAll("#timeline .tl-timemarker");
+      markers.forEach(function (m) {
+        if (m.__calBound) { return; }
+        m.__calBound = true;
+        m.style.cursor = "pointer";
+        m.addEventListener("click", function () {
+          var id = m.id.replace(/-marker$/, "");
+          openModal(id);
+        });
+      });
+      buildEventIds();
+    }
+    // After the markers exist, seed curIndex from the auto-selected talk so the
+    // first arrow press steps from the current entry rather than the start.
+    function syncStartIndex() {
+      if (curIndex !== -1 || !eventIds.length) { return; }
+      // `selected` counts the title slide (index 0), so the event index is one
+      // less; clamp into range.
+      var i = Math.min(Math.max(selected - 1, 0), eventIds.length - 1);
+      curIndex = i;
+      btnPrev.disabled = (i <= 0);
+      btnNext.disabled = (i >= eventIds.length - 1);
+    }
+    timeline.on("loaded", function () { setTimeout(function () { bindMarkers(); syncStartIndex(); }, 100); });
+    // Re-bind after zoom/relayout, which can recreate marker nodes.
+    timeline.on("zoomtoggle", function () { setTimeout(bindMarkers, 100); });
+
+    // Arrows steer the TIMELINE in place (step to prev/next talk).
+    btnPrev.addEventListener("click", function () { selectByIndex(curIndex - 1); });
+    btnNext.addEventListener("click", function () { selectByIndex(curIndex + 1); });
+
+    document.getElementById("cal-modal-close").addEventListener("click", closeModal);
+    overlay.addEventListener("click", function (e) { if (e.target === overlay) { closeModal(); } });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") { if (modalIsOpen()) { closeModal(); } return; }
+      // Left/right arrows step the timeline whether or not the modal is open.
+      if (e.key === "ArrowLeft") { selectByIndex(curIndex - 1); }
+      else if (e.key === "ArrowRight") { selectByIndex(curIndex + 1); }
+    });
+  })();
+</script>
+{{ end }}
