@@ -4,8 +4,10 @@ conference:
   name: "Apache Kafka Meetup"
   url: "https://events.confluent.io/meetups"
   city: "Raleigh"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 35.7796
+  longitude: -78.6382
   date: 2020-03-31
 authors:
   - author: "Ricardo Ferreira"

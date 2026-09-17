@@ -4,8 +4,10 @@ conference:
   name: "Optimized AI Conference 2026"
   url: "https://www.oaiconference.com/"
   city: "Atlanta"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 33.749
+  longitude: -84.388
   date: 2026-03-31
 authors:
   - author: "Ricardo Ferreira"

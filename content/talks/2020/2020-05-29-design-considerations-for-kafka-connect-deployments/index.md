@@ -6,6 +6,8 @@ conference:
   city: "Berlin"
   country: "Germany"
   country_code: "de"
+  latitude: 52.52
+  longitude: 13.405
   date: 2020-05-29
 authors:
   - author: "Ricardo Ferreira"

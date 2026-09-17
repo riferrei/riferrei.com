@@ -6,6 +6,8 @@ conference:
   city: "Kyiv"
   country: "Ukraine"
   country_code: "ua"
+  latitude: 50.4501
+  longitude: 30.5234
   date: 2019-04-27
 authors:
   - author: "Ricardo Ferreira"

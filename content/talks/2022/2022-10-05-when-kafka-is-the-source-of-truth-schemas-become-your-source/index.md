@@ -4,8 +4,10 @@ conference:
   name: "Current 2022"
   url: "https://2022.currentevent.io/"
   city: "Austin"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 30.2672
+  longitude: -97.7431
   date: 2022-10-05
 authors:
   - author: "Ricardo Ferreira"

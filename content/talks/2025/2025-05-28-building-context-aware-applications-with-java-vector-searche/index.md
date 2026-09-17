@@ -6,6 +6,8 @@ conference:
   city: "Coimbra"
   country: "Portugal"
   country_code: "pt"
+  latitude: 40.2033
+  longitude: -8.4103
   date: 2025-05-28
 authors:
   - author: "Ricardo Ferreira"

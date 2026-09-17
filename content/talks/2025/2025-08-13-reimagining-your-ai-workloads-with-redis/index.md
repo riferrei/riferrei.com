@@ -6,6 +6,8 @@ conference:
   city: "São Paulo"
   country: "Brazil"
   country_code: "br"
+  latitude: -23.5505
+  longitude: -46.6333
   date: 2025-08-13
 authors:
   - author: "Ricardo Ferreira"

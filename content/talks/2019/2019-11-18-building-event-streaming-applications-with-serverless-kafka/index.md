@@ -4,8 +4,10 @@ conference:
   name: "KubeCon 2019"
   url: "https://events19.linuxfoundation.org/events/kubecon-cloudnativecon-north-america-2019/"
   city: "San Diego"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 32.7157
+  longitude: -117.1611
   date: 2019-11-18
 authors:
   - author: "Ricardo Ferreira"

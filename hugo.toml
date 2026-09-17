@@ -49,7 +49,7 @@ defaultContentLanguage = "en"
   [params.navItems]
     [params.navItems.calendar]
       href = "/calendar/"
-      title = "Speaking Calendar"
+      title = "Calendar"
       icon = "calendar"
 
   [params.talks]

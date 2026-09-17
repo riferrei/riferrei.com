@@ -4,8 +4,10 @@ conference:
   name: "Redis Released San Francisco 2025"
   url: "https://events.redis.io/redis-released-san-francisco-2025"
   city: "San Francisco"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 37.7749
+  longitude: -122.4194
   date: 2025-09-04
 authors:
   - author: "Ricardo Ferreira"

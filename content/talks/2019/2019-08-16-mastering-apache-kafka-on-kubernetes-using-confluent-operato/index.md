@@ -4,8 +4,10 @@ conference:
   name: "DevConf.US 2019"
   url: "https://www.devconf.info/us/"
   city: "Boston"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 42.3601
+  longitude: -71.0589
   date: 2019-08-16
 authors:
   - author: "Ricardo Ferreira"

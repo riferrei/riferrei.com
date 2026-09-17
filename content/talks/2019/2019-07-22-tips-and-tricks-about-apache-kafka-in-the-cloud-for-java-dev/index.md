@@ -4,8 +4,10 @@ conference:
   name: "Apache Kafka Meetup"
   url: "https://www.meetup.com/Raleigh-Apache-Kafka-Meetup-by-Confluent/"
   city: "Durham"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 35.994
+  longitude: -78.8986
   date: 2019-07-22
 authors:
   - author: "Ricardo Ferreira"

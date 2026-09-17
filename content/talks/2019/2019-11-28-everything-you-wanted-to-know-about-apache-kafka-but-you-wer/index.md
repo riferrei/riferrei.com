@@ -6,6 +6,8 @@ conference:
   city: "Vilnius"
   country: "Lithuania"
   country_code: "lt"
+  latitude: 54.6872
+  longitude: 25.2797
   date: 2019-11-28
 authors:
   - author: "Ricardo Ferreira"

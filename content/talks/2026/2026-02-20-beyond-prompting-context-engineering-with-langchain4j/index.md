@@ -4,8 +4,10 @@ conference:
   name: "Developer Week 2026"
   url: "https://www.developerweek.com"
   city: "San Jose"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 37.3382
+  longitude: -121.8863
   date: 2026-02-20
 authors:
   - author: "Ricardo Ferreira"

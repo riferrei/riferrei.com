@@ -6,6 +6,8 @@ conference:
   city: "Warsaw"
   country: "Poland"
   country_code: "pl"
+  latitude: 52.2297
+  longitude: 21.0122
   date: 2019-11-26
 authors:
   - author: "Ricardo Ferreira"

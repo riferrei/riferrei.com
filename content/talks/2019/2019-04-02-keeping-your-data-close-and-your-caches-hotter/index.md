@@ -4,8 +4,10 @@ conference:
   name: "Kafka Summit 2019, New York"
   url: "https://www.kafka-summit.org/kafka-summit-new-york-2019"
   city: "New York"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 40.7128
+  longitude: -74.006
   date: 2019-04-02
 authors:
   - author: "Ricardo Ferreira"

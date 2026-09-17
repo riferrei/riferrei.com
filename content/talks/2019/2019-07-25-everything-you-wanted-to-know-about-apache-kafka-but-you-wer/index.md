@@ -4,8 +4,10 @@ conference:
   name: "Apache Kafka Meetup"
   url: "https://www.meetup.com/Kafka-ATL/"
   city: "Atlanta"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 33.749
+  longitude: -84.388
   date: 2019-07-25
 authors:
   - author: "Ricardo Ferreira"

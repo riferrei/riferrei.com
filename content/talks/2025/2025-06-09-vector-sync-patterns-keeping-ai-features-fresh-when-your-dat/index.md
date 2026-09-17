@@ -4,8 +4,10 @@ conference:
   name: "InfoQ Dev Summit Boston 2025"
   url: "https://devsummit.infoq.com/conference/boston2025"
   city: "Boston"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 42.3601
+  longitude: -71.0589
   date: 2025-06-09
 authors:
   - author: "Ricardo Ferreira"

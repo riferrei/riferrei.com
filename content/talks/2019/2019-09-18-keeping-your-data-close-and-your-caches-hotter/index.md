@@ -4,8 +4,10 @@ conference:
   name: "Oracle CodeONE 2019"
   url: "https://www.oracle.com/code-one/"
   city: "San Francisco"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 37.7749
+  longitude: -122.4194
   date: 2019-09-18
 authors:
   - author: "Ricardo Ferreira"

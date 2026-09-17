@@ -4,8 +4,10 @@ conference:
   name: "Microsoft Build 2020"
   url: "https://mybuild.microsoft.com/"
   city: "Seattle"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 47.6062
+  longitude: -122.3321
   date: 2020-05-19
 authors:
   - author: "Ricardo Ferreira"

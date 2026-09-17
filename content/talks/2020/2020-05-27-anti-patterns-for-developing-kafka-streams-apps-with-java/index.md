@@ -6,6 +6,8 @@ conference:
   city: "Sofia"
   country: "Bulgaria"
   country_code: "bg"
+  latitude: 42.6977
+  longitude: 23.3219
   date: 2020-05-27
 authors:
   - author: "Ricardo Ferreira"

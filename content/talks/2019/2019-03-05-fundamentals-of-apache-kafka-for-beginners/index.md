@@ -4,8 +4,10 @@ conference:
   name: "Java Users Group Meetup"
   url: "https://www.meetup.com/nashvillejug/"
   city: "Nashville"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 36.1627
+  longitude: -86.7816
   date: 2019-03-05
 authors:
   - author: "Ricardo Ferreira"

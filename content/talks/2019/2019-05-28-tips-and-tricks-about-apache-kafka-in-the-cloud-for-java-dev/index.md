@@ -6,6 +6,8 @@ conference:
   city: "Barcelona"
   country: "Spain"
   country_code: "es"
+  latitude: 41.3874
+  longitude: 2.1686
   date: 2019-05-28
 authors:
   - author: "Ricardo Ferreira"

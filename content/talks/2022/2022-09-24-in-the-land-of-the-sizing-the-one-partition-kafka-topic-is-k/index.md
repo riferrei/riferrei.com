@@ -4,8 +4,10 @@ conference:
   name: "Strange Loop 2022"
   url: "https://www.thestrangeloop.com"
   city: "St. Louis"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 38.627
+  longitude: -90.1994
   date: 2022-09-24
 authors:
   - author: "Ricardo Ferreira"

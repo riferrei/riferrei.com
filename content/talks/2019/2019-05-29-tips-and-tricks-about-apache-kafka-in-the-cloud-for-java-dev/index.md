@@ -6,6 +6,8 @@ conference:
   city: "Madrid"
   country: "Spain"
   country_code: "es"
+  latitude: 40.4168
+  longitude: -3.7038
   date: 2019-05-29
 authors:
   - author: "Ricardo Ferreira"

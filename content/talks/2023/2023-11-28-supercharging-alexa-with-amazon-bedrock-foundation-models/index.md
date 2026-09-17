@@ -4,8 +4,10 @@ conference:
   name: "AWS re:Invent 2023"
   url: "https://reinvent.awsevents.com/"
   city: "Las Vegas"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 36.1699
+  longitude: -115.1398
   date: 2023-11-28
 authors:
   - author: "Ricardo Ferreira"

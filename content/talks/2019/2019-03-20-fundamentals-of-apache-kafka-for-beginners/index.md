@@ -4,8 +4,10 @@ conference:
   name: "Java Users Group Meetup"
   url: "https://www.meetup.com/KansasCityJUG/"
   city: "Kansas City"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 39.0997
+  longitude: -94.5786
   date: 2019-03-20
 authors:
   - author: "Ricardo Ferreira"

@@ -6,6 +6,8 @@ conference:
   city: "Stockholm"
   country: "Sweden"
   country_code: "se"
+  latitude: 59.3293
+  longitude: 18.0686
   date: 2019-02-04
 authors:
   - author: "Ricardo Ferreira"

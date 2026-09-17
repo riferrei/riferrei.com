@@ -4,8 +4,10 @@ conference:
   name: "Apache Kafka Meetup"
   url: "https://www.meetup.com/Houston-Kafka/"
   city: "Houston"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 29.7604
+  longitude: -95.3698
   date: 2019-06-27
 authors:
   - author: "Ricardo Ferreira"

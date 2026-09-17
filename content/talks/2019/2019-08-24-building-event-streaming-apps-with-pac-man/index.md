@@ -6,6 +6,8 @@ conference:
   city: "Belo Horizonte"
   country: "Brazil"
   country_code: "br"
+  latitude: -19.9167
+  longitude: -43.9345
   date: 2019-08-24
 authors:
   - author: "Ricardo Ferreira"

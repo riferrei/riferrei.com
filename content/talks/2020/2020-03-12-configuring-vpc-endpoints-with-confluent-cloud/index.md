@@ -4,8 +4,10 @@ conference:
   name: "Confluent Tech Talk"
   url: "https://events.confluent.io/meetups"
   city: "Cincinnati"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 39.1031
+  longitude: -84.512
   date: 2020-03-12
 authors:
   - author: "Ricardo Ferreira"

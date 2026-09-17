@@ -4,8 +4,10 @@ conference:
   name: "Build On Observability Day"
   url: "https://aws.amazon.com/developer/learning/buildon-aws-live"
   city: "Portland"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 45.5152
+  longitude: -122.6784
   date: 2022-09-29
 authors:
   - author: "Ricardo Ferreira"

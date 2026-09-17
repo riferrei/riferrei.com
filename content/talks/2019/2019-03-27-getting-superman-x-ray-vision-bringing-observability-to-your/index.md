@@ -6,6 +6,8 @@ conference:
   city: "Auckland"
   country: "New Zealand"
   country_code: "nz"
+  latitude: -36.8485
+  longitude: 174.7633
   date: 2019-03-27
 authors:
   - author: "Ricardo Ferreira"

@@ -6,6 +6,8 @@ conference:
   city: "London"
   country: "United Kingdom"
   country_code: "gb"
+  latitude: 51.5074
+  longitude: -0.1278
   date: 2019-06-03
 authors:
   - author: "Ricardo Ferreira"

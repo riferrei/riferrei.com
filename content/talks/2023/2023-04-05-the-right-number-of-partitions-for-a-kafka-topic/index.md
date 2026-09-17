@@ -4,8 +4,10 @@ conference:
   name: "Devnexus 2023"
   url: "https://devnexus.com/"
   city: "Atlanta"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 33.749
+  longitude: -84.388
   date: 2023-04-05
 authors:
   - author: "Ricardo Ferreira"

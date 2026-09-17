@@ -4,8 +4,10 @@ conference:
   name: "All Things Open 2021"
   url: "https://2021.allthingsopen.org/"
   city: "Raleigh"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 35.7796
+  longitude: -78.6382
   date: 2021-10-19
 authors:
   - author: "Ricardo Ferreira"

@@ -4,8 +4,10 @@ conference:
   name: "Apache Kafka Meetup"
   url: "https://www.meetup.com/Apache-Kafka-DC/"
   city: "Washington"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 38.9072
+  longitude: -77.0369
   date: 2019-06-18
 authors:
   - author: "Ricardo Ferreira"

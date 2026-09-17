@@ -4,8 +4,10 @@ conference:
   name: "Microsoft Ignite 2019"
   url: "https://myignite.microsoft.com/home"
   city: "Orlando"
-  country: "USA"
+  country: "United States"
   country_code: "us"
+  latitude: 28.5383
+  longitude: -81.3792
   date: 2019-11-06
 authors:
   - author: "Ricardo Ferreira"
