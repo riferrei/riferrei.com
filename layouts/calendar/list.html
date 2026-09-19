@@ -403,7 +403,7 @@
   {{ $text := printf "🎙 %s" $confLine }}
   {{ if and $locName (ne $locName "") }}
     {{ if and $conf.latitude $conf.longitude }}
-      {{ $text = printf "%s<br>✈️ <a href='https://www.google.com/maps?q=%s,%s' target='_blank' rel='noopener'>%s</a>" $text $conf.latitude $conf.longitude $locName }}
+      {{ $text = printf "%s<br>✈️ <a href='https://www.google.com/maps?q=%v,%v' target='_blank' rel='noopener'>%s</a>" $text $conf.latitude $conf.longitude $locName }}
     {{ else }}
       {{ $text = printf "%s<br>✈️ %s" $text $locName }}
     {{ end }}
