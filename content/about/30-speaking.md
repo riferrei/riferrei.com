@@ -9,5 +9,3 @@ I've been speaking at conferences since 2008 and doing it full time as part of m
 You can find my upcoming and past talks on my [speaking calendar](/calendar/). Recordings also live on [my YouTube channel](https://www.youtube.com/@riferrei), and the code I write for talks, demos, and tutorials is on [my GitHub](https://github.com/riferrei).
 
 ## Get in touch
-
-Want to talk about distributed systems, AI engineering, or having me speak at your event? Connect with me through any of the social links below.

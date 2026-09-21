@@ -17,10 +17,9 @@
 
     {{ .Content }}
 
-    {{/* Social Links moved to the bottom: the page leads with "Who I am" and
-        ends with the icons, right after the "Get in touch" call to action. */}}
+    {{/* Social icons sit directly under the "Get in touch" heading from the
+        last content section — no separate "Social Links" heading. */}}
     <section class="mb-8" data-pagefind-ignore>
-      <h2>Social Links</h2>
       {{ partial "socials.html" . }}
     </section>
 

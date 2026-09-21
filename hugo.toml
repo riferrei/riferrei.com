@@ -31,7 +31,8 @@ defaultContentLanguage = "en"
   avatar = "about/ricardo.png"
   headerTitle = "Ricardo Ferreira"
   motto = "Helping developers build with distributed systems, AI, and data infrastructure"
-  email = "riferrei@riferrei.com"
+  # No `email` param on purpose: it would render a public mailto icon in the
+  # socials list and put the address in the RSS feed (both spam magnets).
   siteStartYear = 2018
   favicon = """<link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="apple-touch-icon" href="/apple-touch-icon.png" />"""
   rss = true
