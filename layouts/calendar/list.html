@@ -310,7 +310,9 @@
      conference link lives on the 🎙 line in .cal-modal-text below. */
   .cal-modal-headline .cal-title { display: block; }
   .cal-modal-text { font-size: 1rem; line-height: 1.6; }
-  .cal-modal-text a { color: var(--color-primary); }
+  /* Underline the conference/location links so it's obvious they're clickable. */
+  .cal-modal-text a { color: var(--color-primary); text-decoration: underline; }
+  .cal-modal-text a:hover { text-decoration: none; }
   .cal-modal-close {
     position: absolute;
     top: 1rem;
