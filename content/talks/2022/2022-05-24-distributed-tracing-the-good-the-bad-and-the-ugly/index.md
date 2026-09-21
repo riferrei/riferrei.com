@@ -2,6 +2,7 @@
 title: "Distributed Tracing: The good, The Bad, and the Ugly"
 conference:
   name: "Open Source North 2022"
+  url: "https://opensourcenorth.com/"
   city: "St Paul"
   country: "United States"
   country_code: "us"

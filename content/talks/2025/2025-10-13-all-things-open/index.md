@@ -2,7 +2,7 @@
 title: "To Vector, or not to Vector, that is the Question"
 conference:
   name: "All Things Open"
-  url: "https://2025.allthingsopen.org/sessions/to-vector-or-not-to-vector-that-is-the-question"
+  url: "https://2025.allthingsopen.org/"
   city: "Raleigh"
   country: "United States"
   country_code: "us"

@@ -2,6 +2,7 @@
 title: "The Subtle Art of Giving Code Walkthrough Talks"
 conference:
   name: "DevRelCon 2021"
+  url: "https://2021.devrel.net/"
   city: "Virtual"
   country: ""
   country_code: ""

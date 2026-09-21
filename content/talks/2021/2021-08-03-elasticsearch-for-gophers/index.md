@@ -2,6 +2,7 @@
 title: "Elasticsearch for Gophers"
 conference:
   name: "Elastic Livestream"
+  url: "https://community.elastic.co/events/details/elastic-united-states-and-canada-virtual-presents-elasticsearch-for-gophers-work-with-me-and-ama/"
   city: "Virtual"
   country: ""
   country_code: ""

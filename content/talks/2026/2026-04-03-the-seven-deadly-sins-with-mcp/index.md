@@ -2,7 +2,7 @@
 title: "The Seven Deadly Sins with MCP"
 conference:
   name: "MCP Dev Summit North America"
-  url: "https://mcpdevsummitna26.sched.com/event/2Hbj9/the-seven-deadly-sins-with-mcp-ricardo-ferreira-redis"
+  url: "https://events.linuxfoundation.org/mcp-dev-summit-north-america/"
   city: "New York"
   country: "United States"
   country_code: "us"

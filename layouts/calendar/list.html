@@ -306,11 +306,8 @@
   }
   .cal-modal-headline a { color: var(--color-primary); text-decoration: none; }
   .cal-modal-headline a:hover { text-decoration: underline; }
-  /* The shared headline HTML carries a conference label (.cal-conf) that the
-     timeline balloon shows above the title. In the modal the conference is
-     already listed in the detail text (🎙 line) below, so hide the duplicate
-     label here and let the modal headline be just the title. */
-  .cal-modal-headline .cal-conf { display: none; }
+  /* Modal headline is just the talk title (linking to the talk page). The
+     conference link lives on the 🎙 line in .cal-modal-text below. */
   .cal-modal-headline .cal-title { display: block; }
   .cal-modal-text { font-size: 1rem; line-height: 1.6; }
   .cal-modal-text a { color: var(--color-primary); }
@@ -389,18 +386,23 @@
   {{ $d := .date }}
   {{ $conf := $t.Params.conference }}
 
-  {{/* headline: conference name on top, then the talk title (linked to the
-      local talk page). Two spans so the balloon CSS can style the conference
-      as a small label above the title. */}}
-  {{ $headline := printf "<span class='cal-conf'>%s</span><a class='cal-title' href='%s'>%s</a>" $conf.name $t.RelPermalink $t.Title }}
+  {{/* Balloon headline: plain text only, NO links. Clicking a balloon should
+      just open the modal, not navigate anywhere. Two spans so the balloon CSS
+      can style the conference as a small label above the title. */}}
+  {{ $headline := printf "<span class='cal-conf'>%s</span><span class='cal-title'>%s</span>" $conf.name $t.Title }}
+
+  {{/* Modal headline: just the talk title, linking to the local talk page. */}}
+  {{ $modalHeadline := printf "<a class='cal-title' href='%s'>%s</a>" $t.RelPermalink $t.Title }}
 
   {{/* location line with optional Google Maps link (matches old ✈️ style) */}}
   {{ $locName := "" }}
   {{ with $conf.city }}{{ $locName = . }}{{ end }}
   {{ with $conf.country }}{{ if and . (ne . "") }}{{ $locName = printf "%s, %s" $locName . }}{{ end }}{{ end }}
-  {{ $confLine := $conf.name }}
-  {{ with $conf.url }}{{ $confLine = printf "<a href='%s' target='_blank' rel='noopener'>%s</a>" . $conf.name }}{{ end }}
-  {{ $text := printf "🎙 %s" $confLine }}
+  {{/* Detail text 🎙 line: the conference name IS the link (to the conference
+      website when one is set). */}}
+  {{ $confLabel := $conf.name }}
+  {{ with $conf.url }}{{ $confLabel = printf "<a href='%s' target='_blank' rel='noopener'>%s</a>" . $conf.name }}{{ end }}
+  {{ $text := printf "🎙 %s" $confLabel }}
   {{ if and $locName (ne $locName "") }}
     {{ if and $conf.latitude $conf.longitude }}
       {{ $text = printf "%s<br>✈️ <a href='https://www.google.com/maps?q=%v,%v' target='_blank' rel='noopener'>%s</a>" $text $conf.latitude $conf.longitude $locName }}
@@ -419,7 +421,7 @@
       markers use the full height. */}}
   {{ $event := dict
       "start_date" (dict "year" $d.Year "month" (int $d.Month) "day" $d.Day)
-      "text" (dict "headline" $headline "text" $text)
+      "text" (dict "headline" $headline "text" $text "modalHeadline" $modalHeadline)
   }}
   {{ if $mediaUrl }}
     {{ $event = merge $event (dict "media" (dict "url" $mediaUrl "thumbnail" $mediaUrl)) }}
@@ -588,7 +590,7 @@
       var sd = slide.start_date.data || slide.start_date;
       elDate.textContent = (sd.month ? MONTHS[sd.month - 1] + " " : "") +
         (sd.day ? sd.day + ", " : "") + sd.year;
-      elHeadline.innerHTML = (slide.text && slide.text.headline) || "";
+      elHeadline.innerHTML = (slide.text && (slide.text.modalHeadline || slide.text.headline)) || "";
       elText.innerHTML = (slide.text && slide.text.text) || "";
     }
 

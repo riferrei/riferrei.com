@@ -2,6 +2,7 @@
 title: "Take me Down to the Paradise City Where the Metric is Green and Traces are Pretty"
 conference:
   name: "SRECon 2021"
+  url: "https://www.usenix.org/conference/srecon21"
   city: "Virtual"
   country: ""
   country_code: ""

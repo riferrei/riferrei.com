@@ -2,6 +2,7 @@
 title: "Writing Custom Sink Connectors for Pulsar I/O"
 conference:
   name: "Pulsar Summit Europe 2021"
+  url: "https://pulsar-summit.org/en/event/europe-2021"
   city: "Virtual"
   country: ""
   country_code: ""

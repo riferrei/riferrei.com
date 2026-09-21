@@ -76,8 +76,8 @@ page (`/talks/videos`) lists only talks that set `youtube:`.
 ```
 content/about/index.md        # shell
 content/about/10-me.md        # sections, sorted by filename prefix
-content/about/20-speaking.md
-content/about/30-opensource.md
+content/about/20-opensource.md
+content/about/30-speaking.md
 data/socials.toml             # social links
 content/about/ricardo.jpg     # <-- add your avatar here (referenced by params.avatar)
 ```

@@ -2,6 +2,7 @@
 title: "The Right Number of Partitions for a Kafka Topic"
 conference:
   name: "Devnexus 2023"
+  url: "https://devnexus.com/"
   city: "Atlanta"
   country: "United States"
   country_code: "us"

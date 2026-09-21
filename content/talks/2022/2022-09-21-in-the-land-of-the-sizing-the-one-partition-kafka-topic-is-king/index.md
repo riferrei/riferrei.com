@@ -2,6 +2,7 @@
 title: "In the land of the sizing, the one-partition Kafka topic is king"
 conference:
   name: "Strange Loop 2022"
+  url: "https://www.thestrangeloop.com/"
   city: "St. Louis"
   country: "United States"
   country_code: "us"

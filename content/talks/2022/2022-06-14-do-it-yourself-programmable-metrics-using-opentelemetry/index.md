@@ -2,6 +2,7 @@
 title: "Do It Yourself: Programmable Metrics using OpenTelemetry"
 conference:
   name: "Berlin Buzzwords 2022"
+  url: "https://2022.berlinbuzzwords.de/"
   city: "Berlin"
   country: "Germany"
   country_code: "de"

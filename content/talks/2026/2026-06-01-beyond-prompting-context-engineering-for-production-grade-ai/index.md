@@ -2,7 +2,7 @@
 title: "Beyond Prompting: Context Engineering for Production-Grade AI"
 conference:
   name: "QCon AI Boston 2026"
-  url: "https://boston.qcon.ai/presentation/boston2026/beyond-prompting-context-engineering-production-grade-ai"
+  url: "https://boston.qcon.ai/"
   city: "Boston"
   country: "United States"
   country_code: "us"

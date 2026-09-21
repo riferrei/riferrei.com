@@ -58,6 +58,12 @@ defaultContentLanguage = "en"
   [params.search]
     enabled = true
 
+# Render a standalone image (alone in its paragraph) as a block so the theme's
+# render-image hook emits <figure> + <figcaption> from the Markdown title,
+# instead of an inline <img> wrapped in <p> with no caption.
+[markup.goldmark.parser]
+  wrapStandAloneImageWithinParagraph = false
+
 # Hugo's defaults are only tags and categories; the extra taxonomies from the
 # theme module are not applied unless the site declares them here.
 [taxonomies]
