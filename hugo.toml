@@ -27,10 +27,10 @@ defaultContentLanguage = "en"
 
 [params]
   author = "Ricardo Ferreira"
-  description = "Ricardo Ferreira: Helping developers build with AI, data infrastructure, and distributed systems"
+  description = "Ricardo Ferreira: Building with AI, Data Infrastructure, and Distributed Systems"
   avatar = "about/ricardo.png"
   headerTitle = "Ricardo Ferreira"
-  motto = "Helping developers build with AI, data infrastructure, and distributed systems"
+  motto = "Building with AI, Data Infrastructure, and Distributed Systems"
   email = "riferrei@riferrei.com"
   siteStartYear = 2018
   favicon = """<link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="apple-touch-icon" href="/apple-touch-icon.png" />"""
