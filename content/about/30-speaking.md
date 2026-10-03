@@ -8,6 +8,6 @@ I've been speaking at conferences since 2008 and doing it full time as part of m
 
 You can find my upcoming and past talks on my [speaking calendar](/calendar/). Recordings also live on [my YouTube channel](https://www.youtube.com/@riferrei), and the code I write for talks, demos, and workshops is on [my GitHub](https://github.com/riferrei).
 
-## Get in touch
+## Consulting and Professional Services
 
-Want to talk about distributed systems, AI engineering, or having me speak at your event? Connect with me through any of the social links below.
+If you'd like to hire me as a consultant for your projects, speak at your event, or lead a hands-on workshop for your team, contact me at riferrei@riferrei.com. I can understand the scope of your request and provide a free estimate.
