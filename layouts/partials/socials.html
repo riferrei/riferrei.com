@@ -1,0 +1,26 @@
+<ul class="menu menu-horizontal flex-wrap w-full px-0 [&_ion-icon]:text-lg">
+  {{ if site.Params.email }}
+  <li>
+    <a href="mailto:{{ site.Params.email }}" title="Email">
+      <ion-icon name="mail"></ion-icon>
+    </a>
+  </li>
+  {{ end }}
+
+  {{ range hugo.Data.socials.socials }}
+  <li>
+    <a href="{{ .href }}" target="{{ .target }}" title="{{ .title }}">
+      {{/* Ionicons has no logo for every service (e.g. Sessionize). An entry
+          may supply an inline `svg` instead of an `icon` name. ion-icon renders
+          at text-lg (1.125rem); size the custom SVG to match and inherit color
+          via fill:currentColor. Dimensions are set inline (not Tailwind
+          utilities) so they survive the theme's CSS build. */}}
+      {{ with .svg }}
+      <span class="inline-flex items-center" style="width:1.125rem;height:1.125rem" aria-hidden="true">{{ . | safeHTML }}</span>
+      {{ else }}
+      <ion-icon name="{{ .icon }}"></ion-icon>
+      {{ end }}
+    </a>
+  </li>
+  {{ end }}
+</ul>
