@@ -178,9 +178,10 @@ html.dark [data-pf-theme] .devrel-pf-type {
  */
 :root:has(input.theme-controller[value=forest]:checked),
 [data-theme="forest"] {
-  --color-base-100: oklch(30.857% 0.023 264.149);
-  --color-base-200: oklch(28.036% 0.019 264.182);
-  --color-base-300: oklch(26.346% 0.018 262.177);
+  /* Base surfaces match the One Dark terminal background (#282c34) */
+  --color-base-100: #282c34;
+  --color-base-200: #21252b;
+  --color-base-300: #1d2026;
   /* Brighter than dim's default (82.9%) for higher contrast against the slate base */
   --color-base-content: oklch(96% 0.012 222.959);
   --color-primary: oklch(86.133% 0.141 139.549);
@@ -189,7 +190,7 @@ html.dark [data-pf-theme] .devrel-pf-type {
   --color-secondary-content: oklch(14.675% 0.033 35.353);
   --color-accent: oklch(74.229% 0.133 311.379);
   --color-accent-content: oklch(14.845% 0.026 311.379);
-  --color-neutral: oklch(24.731% 0.02 264.094);
+  --color-neutral: #1b1e23;
   --color-neutral-content: oklch(96% 0.012 222.959);
   --color-info: oklch(86.078% 0.142 206.182);
   --color-info-content: oklch(17.215% 0.028 206.182);
